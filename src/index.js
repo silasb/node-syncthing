@@ -146,7 +146,7 @@ Syncthing.prototype.db = {
       cb = levels
       levels = null
       subdir = null
-    }else {
+    }else if (subdir != undefined){
       attr.push({key: "prefix", val: subdir})
     }
     return callReq({method: "db", endpoint: "browse", attr}, cb)

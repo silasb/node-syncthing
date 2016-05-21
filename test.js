@@ -112,12 +112,39 @@ test("DB/Status", function (t) {
     t.equal(typeof res, "object", "Json response");
   });
 });
-test("DB/Browse", function (t) {
-  t.plan(2);
-  st.db.browse(example.folder, 1, example.subdir, function (err, res) {
+test("DB/Browse callback", function (t) {
+  t.plan(3);
+  st.db.browse(example.folder, 0, function (err, res) {
     t.equal(err, null, "No Errors");
     t.equal(typeof res, "object", "Json response");
+    t.equal(Object.keys(res).length, 9, "Json response key size")
   });
+});
+test("DB/Browse subdir callback", function (t) {
+  t.plan(3);
+  st.db.browse(example.folder, 0, example.subdir, function (err, res) {
+    t.equal(err, null, "No Errors");
+    t.equal(typeof res, "object", "Json response");
+    t.equal(Object.keys(res).length, 0, "Json response key size")
+  });
+});
+test("DB/Browse promise", function (t) {
+  t.plan(2);
+  st.db.browse(example.folder, 0).then(function(res) {
+    t.equal(typeof res, "object", "Json response");
+    t.equal(Object.keys(res).length, 9, "Json response key size")
+  }).catch(function (err) {
+    t.equal(err, null, "No Errors");
+  })
+});
+test("DB/Browse subdir promise", function (t) {
+  t.plan(2);
+  st.db.browse(example.folder, 0, example.subdir).then(function(res) {
+    t.equal(typeof res, "object", "Json response");
+    t.equal(Object.keys(res).length, 0, "Json response key size")
+  }).catch(function (err) {
+    t.equal(err, null, "No Errors");
+  })
 });
 test("DB/File", function (t) {
   t.plan(2);
